@@ -1,7 +1,13 @@
 import { useState, useEffect, useRef } from "react";
-import type { GameState } from "../types/game";
+import type { GameState, CareAction } from "../types/game";
 import { DEFAULT_STATE } from "../types/game";
 import { loadState, saveState } from "../utils/storage";
+
+const DELTAS: Record<CareAction, { hunger: number; happiness: number; energy: number }> = {
+  feed: { hunger: 25, happiness: 0, energy: -5 },
+  play: { hunger: -5, happiness: 20, energy: -15 },
+  rest: { hunger: 0, happiness: 5, energy: 30 },
+};
 
 const TICK_MS = 15000;
 
@@ -49,5 +55,21 @@ export function useGameState() {
     setIsNaming(false);
   }
 
-  return { state, isNaming, submitName };
+  function performAction(action: CareAction): void {
+    const delta = DELTAS[action];
+    setState((prev) => {
+      const next: GameState = {
+        ...prev,
+        hunger: clamp(prev.hunger + delta.hunger),
+        happiness: clamp(prev.happiness + delta.happiness),
+        energy: clamp(prev.energy + delta.energy),
+        totalCareActions: prev.totalCareActions + 1,
+        lastInteraction: Date.now(),
+      };
+      saveState(next);
+      return next;
+    });
+  }
+
+  return { state, isNaming, submitName, performAction };
 }

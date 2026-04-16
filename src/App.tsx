@@ -1,9 +1,10 @@
 import { useGameState } from "./hooks/useGameState";
 import { VitalsPanel } from "./components/VitalsPanel";
 import { NamingModal } from "./components/NamingModal";
+import { ActionPanel } from "./components/ActionPanel";
 
 function App() {
-  const { state, isNaming, submitName } = useGameState();
+  const { state, isNaming, submitName, performAction } = useGameState();
 
   return (
     <div className="min-h-screen bg-orange-50 flex flex-col items-center justify-center p-4">
@@ -16,6 +17,7 @@ function App() {
         happiness={state.happiness}
         energy={state.energy}
       />
+      {!isNaming && <ActionPanel onAction={performAction} />}
     </div>
   );
 }

@@ -1,5 +1,7 @@
 export type PetState = "normal" | "sick" | "evolved";
 
+export type CareAction = "feed" | "play" | "rest";
+
 export interface GameState {
   name: string;
   hunger: number;

@@ -3,6 +3,7 @@ import { renderHook, act } from "@testing-library/react";
 import { useGameState } from "./useGameState";
 import type { GameState } from "../types/game";
 import { DEFAULT_STATE } from "../types/game";
+import { loadState } from "../utils/storage";
 
 const validState: GameState = {
   ...DEFAULT_STATE,
@@ -89,5 +90,89 @@ describe("useGameState", () => {
     expect(setIntervalSpy).toHaveBeenCalledTimes(1);
     unmount();
     setIntervalSpy.mockRestore();
+  });
+
+  it("T-5.1: performAction('feed') increases hunger by 25, leaves happiness unchanged, decreases energy by 5", () => {
+    const base: GameState = { ...DEFAULT_STATE, name: "Zuki", hunger: 50, happiness: 50, energy: 50 };
+    localStorage.setItem("zuki_game_state", JSON.stringify(base));
+    const { result } = renderHook(() => useGameState());
+    act(() => { result.current.performAction("feed"); });
+    expect(result.current.state.hunger).toBe(75);
+    expect(result.current.state.happiness).toBe(50);
+    expect(result.current.state.energy).toBe(45);
+  });
+
+  it("T-5.2: performAction('play') decreases hunger by 5, increases happiness by 20, decreases energy by 15", () => {
+    const base: GameState = { ...DEFAULT_STATE, name: "Zuki", hunger: 50, happiness: 50, energy: 50 };
+    localStorage.setItem("zuki_game_state", JSON.stringify(base));
+    const { result } = renderHook(() => useGameState());
+    act(() => { result.current.performAction("play"); });
+    expect(result.current.state.hunger).toBe(45);
+    expect(result.current.state.happiness).toBe(70);
+    expect(result.current.state.energy).toBe(35);
+  });
+
+  it("T-5.3: performAction('rest') leaves hunger unchanged, increases happiness by 5, increases energy by 30", () => {
+    const base: GameState = { ...DEFAULT_STATE, name: "Zuki", hunger: 50, happiness: 50, energy: 50 };
+    localStorage.setItem("zuki_game_state", JSON.stringify(base));
+    const { result } = renderHook(() => useGameState());
+    act(() => { result.current.performAction("rest"); });
+    expect(result.current.state.hunger).toBe(50);
+    expect(result.current.state.happiness).toBe(55);
+    expect(result.current.state.energy).toBe(80);
+  });
+
+  it("T-5.4: feed when hunger is 90 clamps to 100", () => {
+    const base: GameState = { ...DEFAULT_STATE, name: "Zuki", hunger: 90, happiness: 50, energy: 50 };
+    localStorage.setItem("zuki_game_state", JSON.stringify(base));
+    const { result } = renderHook(() => useGameState());
+    act(() => { result.current.performAction("feed"); });
+    expect(result.current.state.hunger).toBe(100);
+  });
+
+  it("T-5.5: play when energy is 5 clamps to 0", () => {
+    const base: GameState = { ...DEFAULT_STATE, name: "Zuki", hunger: 50, happiness: 50, energy: 5 };
+    localStorage.setItem("zuki_game_state", JSON.stringify(base));
+    const { result } = renderHook(() => useGameState());
+    act(() => { result.current.performAction("play"); });
+    expect(result.current.state.energy).toBe(0);
+  });
+
+  it("T-5.6: performAction increments totalCareActions by 1", () => {
+    const base: GameState = { ...DEFAULT_STATE, name: "Zuki", totalCareActions: 0 };
+    localStorage.setItem("zuki_game_state", JSON.stringify(base));
+    const { result } = renderHook(() => useGameState());
+    act(() => { result.current.performAction("feed"); });
+    expect(result.current.state.totalCareActions).toBe(1);
+  });
+
+  it("T-5.7: calling performAction three times results in totalCareActions === 3", () => {
+    const base: GameState = { ...DEFAULT_STATE, name: "Zuki", totalCareActions: 0 };
+    localStorage.setItem("zuki_game_state", JSON.stringify(base));
+    const { result } = renderHook(() => useGameState());
+    act(() => {
+      result.current.performAction("feed");
+      result.current.performAction("play");
+      result.current.performAction("rest");
+    });
+    expect(result.current.state.totalCareActions).toBe(3);
+  });
+
+  it("T-5.8: performAction updates lastInteraction to a timestamp >= the value before the call", () => {
+    const before = Date.now();
+    const base: GameState = { ...DEFAULT_STATE, name: "Zuki", lastInteraction: before };
+    localStorage.setItem("zuki_game_state", JSON.stringify(base));
+    const { result } = renderHook(() => useGameState());
+    act(() => { result.current.performAction("rest"); });
+    expect(result.current.state.lastInteraction).toBeGreaterThanOrEqual(before);
+  });
+
+  it("T-5.9: performAction calls saveState — localStorage is updated after the call", () => {
+    const base: GameState = { ...DEFAULT_STATE, name: "Zuki", hunger: 50, happiness: 50, energy: 50 };
+    localStorage.setItem("zuki_game_state", JSON.stringify(base));
+    const { result } = renderHook(() => useGameState());
+    act(() => { result.current.performAction("feed"); });
+    const saved = loadState();
+    expect(saved?.hunger).toBe(75);
   });
 });
