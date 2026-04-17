@@ -1,73 +1,89 @@
-# React + TypeScript + Vite
+# Zuki Pet
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A Tamagotchi-style virtual pet built with React 19, TypeScript, and pixel art aesthetics.
 
-Currently, two official plugins are available:
+![Zuki Pet preview](public/og-preview.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## What is Zuki?
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Zuki is a pixel art fox who needs your attention. Feed her, play with her, and let her rest — or she'll let you know exactly how she feels about it.
 
-## Expanding the ESLint configuration
+The app runs entirely in the browser with no backend. State persists across sessions via `localStorage`.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Features
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- **Naming flow** — first launch prompts you to name your fox
+- **Living vitals** — Hunger, Happiness, and Energy decay every 15 seconds
+- **Care loop** — Feed, Play, and Rest actions affect stats with clamped math
+- **Dynamic states** — Zuki can become sick (stats too low) or evolve (all stats high + enough care actions)
+- **Personality & Easter eggs** — six context-sensitive messages triggered by specific conditions (overfed, exhausted play, forced rest, spam click, idle guilt, peak happiness)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+## Tech Stack
+
+| Layer | Tool |
+|---|---|
+| Framework | React 19 + TypeScript |
+| Styling | Tailwind CSS v4 + CSS custom properties |
+| Build | Vite 8 |
+| Tests | Vitest + React Testing Library |
+| Font | Press Start 2P (Google Fonts) |
+
+---
+
+## Getting Started
+
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Open [http://localhost:5173](http://localhost:5173).
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Running Tests
+
+```bash
+npx vitest run
 ```
+
+68 tests across 7 suites covering state logic, component rendering, timing behavior, and persistence.
+
+```bash
+npm run build
+```
+
+Verifies TypeScript compiles with no errors.
+
+---
+
+## Project Structure
+
+```
+src/
+  components/
+    ActionPanel.tsx      # FEED / PLAY / REST buttons
+    MessageBubble.tsx    # Easter egg message overlay
+    NamingModal.tsx      # First-launch naming screen
+    PetDisplay.tsx       # Pixel fox + status labels
+    PixelFox.tsx         # SVG pixel art fox (normal / sick / evolved)
+    VitalsPanel.tsx      # Segmented stat bars
+  hooks/
+    useGameState.ts      # All game logic and state machine
+  utils/
+    storage.ts           # localStorage helpers
+specs/
+  features/              # Spec-Driven Development docs per feature
+```
+
+---
+
+## Specs
+
+Each feature has a dedicated spec in `specs/features/` covering implementation details, automated test requirements, manual smoke tests, and acceptance criteria. The specs are the primary design artifact — code follows them.
