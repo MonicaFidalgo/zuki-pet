@@ -4,29 +4,45 @@ interface ActionPanelProps {
   onAction: (action: CareAction) => void;
 }
 
+const btnStyle: React.CSSProperties = {
+  flex: 1,
+  padding: '10px 4px',
+  background: 'var(--tama-btn-face)',
+  color: 'var(--tama-lcd-on)',
+  fontFamily: 'var(--pixel-font)',
+  fontSize: '7px',
+  letterSpacing: '0.5px',
+  border: 'none',
+  cursor: 'pointer',
+  textShadow: '1px 1px 0 #000',
+};
+
 export function ActionPanel({ onAction }: ActionPanelProps) {
   return (
-    <div className="flex gap-3 mt-4 w-full max-w-sm">
+    <div style={{ display: 'flex', gap: '8px', width: '100%', padding: '0 4px' }}>
       <button
         onClick={() => onAction("feed")}
         aria-label="Feed Zuki"
-        className="flex-1 py-3 rounded-lg bg-amber-400 hover:bg-amber-500 font-semibold text-white transition-colors"
+        className="pixel-border-btn"
+        style={btnStyle}
       >
-        Feed 🍙
+        FEED
       </button>
       <button
         onClick={() => onAction("play")}
         aria-label="Play with Zuki"
-        className="flex-1 py-3 rounded-lg bg-sky-400 hover:bg-sky-500 font-semibold text-white transition-colors"
+        className="pixel-border-btn"
+        style={btnStyle}
       >
-        Play 🎾
+        PLAY
       </button>
       <button
         onClick={() => onAction("rest")}
         aria-label="Rest Zuki"
-        className="flex-1 py-3 rounded-lg bg-violet-400 hover:bg-violet-500 font-semibold text-white transition-colors"
+        className="pixel-border-btn"
+        style={btnStyle}
       >
-        Rest 💤
+        REST
       </button>
     </div>
   );

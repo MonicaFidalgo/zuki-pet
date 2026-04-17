@@ -1,111 +1,188 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --pixel-font: 'Press Start 2P', monospace;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  --tama-shell:         #c8892a;
+  --tama-shell-dark:    #8b5e1a;
+  --tama-shell-light:   #e8a83a;
+  --tama-lcd-bg:        #2d3a1e;
+  --tama-lcd-pixel:     #3a4a25;
+  --tama-lcd-on:        #a8c060;
+  --tama-lcd-glow:      #7a9840;
+  --tama-amber:         #d4820a;
+  --tama-amber-bright:  #f5a623;
+  --tama-btn-face:      #b87320;
+  --tama-btn-shadow:    #6b3d08;
+  --tama-btn-highlight: #e8973a;
+  --tama-text-dim:      #8a6020;
+  --tama-danger:        #c04020;
+  --tama-warn:          #c09020;
+  --tama-ok:            #40a020;
+  --tama-bg:            #1a0e04;
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
+  font-family: var(--pixel-font);
+  font-size: 8px;
+  line-height: 1.8;
+  letter-spacing: 0.5px;
+  color: var(--tama-lcd-on);
+  background: var(--tama-bg);
+  image-rendering: pixelated;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: unset;
   font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
-}
-
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
+  text-rendering: optimizeSpeed;
 }
 
 body {
   margin: 0;
+  background: var(--tama-bg);
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0, 0, 0, 0.15) 3px,
+    rgba(0, 0, 0, 0.15) 4px
+  );
+}
+
+#root {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
 }
 
 h1,
 h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+  font-family: var(--pixel-font);
+  font-weight: normal;
+  color: var(--tama-amber-bright);
 }
 
 h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
+  font-size: 11px;
+  margin: 0 0 10px 0;
+  line-height: 2;
+  text-shadow: 2px 2px 0px #000, 3px 3px 0px var(--tama-shell-dark);
+  letter-spacing: 1px;
 }
+
 h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
+  font-size: 9px;
+  margin: 0 0 12px;
+  line-height: 2;
+  text-shadow: 1px 1px 0 #000;
 }
+
 p {
   margin: 0;
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+/* ---- PIXEL BORDER UTILITIES ---- */
+
+/* Shell — does NOT force border-radius:0 so egg shape works */
+.pixel-border-shell {
+  box-shadow:
+    0 0 0 3px #000,
+    inset 3px 3px 0px var(--tama-shell-light),
+    inset -3px -3px 0px var(--tama-shell-dark),
+    6px 6px 0px #000;
 }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+/* LCD panel — deep recessed frame */
+.pixel-border-lcd {
+  box-shadow:
+    0 0 0 3px #000,
+    0 0 0 5px var(--tama-shell-dark),
+    inset 1px 1px 0 var(--tama-lcd-glow),
+    inset -1px -1px 0 #0a1205;
+  border-radius: 0 !important;
+}
+
+/* Pixel buttons */
+.pixel-border-btn {
+  box-shadow:
+    inset -2px -2px 0px var(--tama-btn-shadow),
+    inset 2px 2px 0px var(--tama-btn-highlight),
+    2px 2px 0px #000;
+  border-radius: 0 !important;
+  transition: none !important;
+}
+
+.pixel-border-btn:active {
+  box-shadow:
+    inset 2px 2px 0px var(--tama-btn-shadow),
+    inset -2px -2px 0px var(--tama-btn-highlight);
+  transform: translate(1px, 1px);
+}
+
+/* LCD screen grid overlay */
+.lcd-screen {
+  position: relative;
+  overflow: hidden;
+}
+
+.lcd-screen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 5px,
+      rgba(0, 0, 0, 0.1) 5px,
+      rgba(0, 0, 0, 0.1) 6px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 5px,
+      rgba(0, 0, 0, 0.06) 5px,
+      rgba(0, 0, 0, 0.06) 6px
+    );
+  z-index: 10;
+}
+
+/* Segmented stat bar block */
+.stat-block {
+  display: inline-block;
+  width: 10px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+/* Animations */
+@keyframes pixel-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+.pixel-blink {
+  animation: pixel-blink 1s step-end infinite;
+}
+
+@keyframes pixel-float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-6px); }
+}
+
+.pixel-float {
+  animation: pixel-float 1.4s steps(2, end) infinite;
+}
+
+/* Naming input focus */
+#pet-name:focus {
+  box-shadow:
+    inset 2px 2px 0 #000,
+    inset -1px -1px 0 var(--tama-lcd-glow),
+    0 0 0 2px var(--tama-amber-bright) !important;
+  outline: none;
 }

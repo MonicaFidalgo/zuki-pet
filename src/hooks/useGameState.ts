@@ -93,7 +93,7 @@ export function useGameState() {
       setState((prev) => {
         if (!hasIdledRef.current && Date.now() - prev.lastInteraction >= IDLE_THRESHOLD_MS) {
           hasIdledRef.current = true;
-          setMessage("Óbvio que preferes o telemóvel.");
+          setMessage("Obviously you prefer your phone.");
         }
         return prev;
       });
@@ -123,11 +123,11 @@ export function useGameState() {
 
       // Pre-delta personality checks (E-1, E-2, E-3)
       if (action === "feed" && prev.hunger > 90) {
-        messageToSet = "Tô cheia!! Para com isso.";
+        messageToSet = "I'm full!! Stop it.";
       } else if (action === "play" && prev.energy < 10) {
-        messageToSet = "Nem consigo levantar as patas...";
+        messageToSet = "Can't even lift a paw...";
       } else if (action === "rest" && prev.energy > 90) {
-        messageToSet = "Eu NÃO estou cansada. Mas ok.";
+        messageToSet = "I'm NOT tired. But fine.";
       }
 
       const delta = DELTAS[action];
@@ -150,7 +150,7 @@ export function useGameState() {
         next.happiness === 100 &&
         next.energy === 100
       ) {
-        messageToSet = "Ok. Talvez goste um bocadinho de ti.";
+        messageToSet = "Ok. Maybe I like you a little.";
       }
 
       if (messageToSet !== null) setMessage(messageToSet);
@@ -163,7 +163,7 @@ export function useGameState() {
   }
 
   function triggerSpamClick(): void {
-    setMessage("Pára. Só porque és tu.");
+    setMessage("Stop it. Only because it's you.");
   }
 
   return { state, isNaming, submitName, performAction, currentMessage, triggerSpamClick };

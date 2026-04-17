@@ -5,9 +5,9 @@ interface VitalsPanelProps {
 }
 
 function getBarColor(value: number): string {
-  if (value > 50) return "bg-green-500";
-  if (value >= 25) return "bg-yellow-400";
-  return "bg-red-500";
+  if (value > 50) return 'var(--tama-ok)';
+  if (value >= 25) return 'var(--tama-warn)';
+  return 'var(--tama-danger)';
 }
 
 interface StatRowProps {
@@ -15,24 +15,57 @@ interface StatRowProps {
   value: number;
 }
 
+const TOTAL_BLOCKS = 10;
+
 function StatRow({ label, value }: StatRowProps) {
-  const color = getBarColor(value);
+  const barColor = getBarColor(value);
+  const filledBlocks = Math.round(value / 10);
+
   return (
-    <div className="mb-4">
-      <div className="flex justify-between mb-1">
-        <span className="font-medium">{label}</span>
-        <span>{Math.round(value)}</span>
+    <div style={{ marginBottom: '10px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+        <span style={{
+          fontFamily: 'var(--pixel-font)',
+          fontSize: '7px',
+          color: 'var(--tama-lcd-on)',
+          textShadow: '1px 1px 0 #000',
+          textTransform: 'uppercase',
+          letterSpacing: '1px',
+        }}>
+          {label}
+        </span>
+        <span style={{
+          fontFamily: 'var(--pixel-font)',
+          fontSize: '7px',
+          color: barColor,
+          textShadow: '1px 1px 0 #000',
+          minWidth: '28px',
+          textAlign: 'right',
+        }}>
+          {String(Math.round(value)).padStart(3, '0')}
+        </span>
       </div>
-      <div className="w-full bg-gray-200 rounded-full h-4">
-        <div
-          role="progressbar"
-          aria-valuenow={value}
-          aria-valuemin={0}
-          aria-valuemax={100}
-          aria-label={label}
-          className={`h-4 rounded-full transition-all ${color}`}
-          style={{ width: `${value}%` }}
-        />
+      <div
+        role="progressbar"
+        aria-valuenow={value}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-label={label}
+        style={{ display: 'flex', gap: '2px', alignItems: 'center' }}
+      >
+        {Array.from({ length: TOTAL_BLOCKS }, (_, i) => (
+          <span
+            key={i}
+            className="stat-block"
+            style={{
+              flex: 1,
+              background: i < filledBlocks ? barColor : 'var(--tama-lcd-pixel)',
+              boxShadow: i < filledBlocks
+                ? 'inset 1px 1px 0 rgba(255,255,255,0.25), inset -1px -1px 0 rgba(0,0,0,0.4)'
+                : 'inset 1px 1px 0 rgba(0,0,0,0.3)',
+            }}
+          />
+        ))}
       </div>
     </div>
   );
@@ -40,9 +73,9 @@ function StatRow({ label, value }: StatRowProps) {
 
 export function VitalsPanel({ hunger, happiness, energy }: VitalsPanelProps) {
   return (
-    <div className="p-4 bg-white rounded-lg shadow w-full max-w-sm">
+    <div style={{ width: '100%', padding: '4px 0' }}>
       <StatRow label="Hunger" value={hunger} />
-      <StatRow label="Happiness" value={happiness} />
+      <StatRow label="Happy" value={happiness} />
       <StatRow label="Energy" value={energy} />
     </div>
   );

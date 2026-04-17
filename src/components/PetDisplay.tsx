@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import type { PetState } from "../types/game";
+import { PixelFox } from "./PixelFox";
 
 interface PetDisplayProps {
   status: PetState;
@@ -33,28 +34,59 @@ export function PetDisplay({ status, name, onPetClick }: PetDisplayProps) {
 
   const isEvolved = status === "evolved";
   const isSick = status === "sick";
-
-  const containerClass = isEvolved
-    ? "bg-yellow-100 border-2 border-yellow-400"
-    : isSick
-      ? "bg-gray-200 border-2 border-gray-400"
-      : "bg-orange-100 border-2 border-orange-200";
+  const foxVariant = isEvolved ? 'evolved' : isSick ? 'sick' : 'normal';
 
   return (
     <button
       onClick={handleClick}
       aria-label={`Pet ${name}`}
-      className={`w-full max-w-sm rounded-xl p-6 mb-4 flex flex-col items-center cursor-pointer select-none transition-colors ${containerClass}`}
+      style={{
+        background: 'transparent',
+        border: 'none',
+        padding: '8px 0 4px',
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        cursor: 'pointer',
+        userSelect: 'none',
+        filter: isEvolved ? 'drop-shadow(0 0 6px #f5a623)' : 'none',
+      }}
     >
-      <span className="text-6xl mb-2" aria-hidden="true">
-        {isEvolved ? "🦊✨" : isSick ? "🦊😷" : "🦊"}
+      <PixelFox variant={foxVariant} />
+      <span style={{
+        fontFamily: 'var(--pixel-font)',
+        fontSize: '10px',
+        color: 'var(--tama-lcd-on)',
+        textShadow: '1px 1px 0 #000',
+        letterSpacing: '1px',
+        marginTop: '8px',
+      }}>
+        {name || "Zuki"}
       </span>
-      <span className="font-bold text-lg">{name || "Zuki"}</span>
       {isSick && (
-        <span className="mt-2 text-sm font-semibold text-gray-600">😷 Sick</span>
+        <span className="pixel-blink" style={{
+          marginTop: '6px',
+          fontFamily: 'var(--pixel-font)',
+          fontSize: '8px',
+          color: 'var(--tama-danger)',
+          textShadow: '1px 1px 0 #000',
+          letterSpacing: '1px',
+        }}>
+          [SICK]
+        </span>
       )}
       {isEvolved && (
-        <span className="mt-2 text-sm font-semibold text-yellow-700">✨ Evolved</span>
+        <span style={{
+          marginTop: '6px',
+          fontFamily: 'var(--pixel-font)',
+          fontSize: '8px',
+          color: 'var(--tama-amber-bright)',
+          textShadow: '0 0 4px var(--tama-amber-bright), 1px 1px 0 #000',
+          letterSpacing: '1px',
+        }}>
+          ** EVOLVED **
+        </span>
       )}
     </button>
   );
