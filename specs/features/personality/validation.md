@@ -17,19 +17,19 @@ Two levels of testing required:
 
 **T-9.1** `currentMessage` is `null` on initial render.
 
-**T-9.2** Calling `performAction('feed')` when `hunger > 90` sets `currentMessage` to `"Tô cheia!! Para com isso."`.
+**T-9.2** Calling `performAction('feed')` when `hunger > 90` sets `currentMessage` to `"I'm full!! Stop it."`.
 
 **T-9.3** Calling `performAction('feed')` when `hunger === 90` does NOT set E-1 message (`hunger` must be strictly `> 90`).
 
-**T-9.4** Calling `performAction('play')` when `energy < 10` sets `currentMessage` to `"Nem consigo levantar as patas..."`.
+**T-9.4** Calling `performAction('play')` when `energy < 10` sets `currentMessage` to `"Can't even lift a paw..."`.
 
-**T-9.5** Calling `performAction('rest')` when `energy > 90` sets `currentMessage` to `"Eu NÃO estou cansada. Mas ok."`.
+**T-9.5** Calling `performAction('rest')` when `energy > 90` sets `currentMessage` to `"I'm NOT tired. But fine."`.
 
 **T-9.6** After a message is set, advancing fake timers by 4 000ms sets `currentMessage` back to `null`.
 
 **T-9.7** Setting a second message while one is active replaces it and resets the 4s timer.
 
-**T-9.8** After `performAction` sets all stats to 100 (use initial state with all stats at 75 and call Rest), `currentMessage` is `"Ok. Talvez goste um bocadinho de ti."`.
+**T-9.8** After `performAction` sets all stats to 100 (use initial state with all stats at 75 and call Rest), `currentMessage` is `"Ok. Maybe I like you a little."`.
 
 **T-9.9** Idle guilt message fires after 300 000ms of no `performAction` (advance fake timers).
 
@@ -65,30 +65,30 @@ Run `npm run dev`.
 
 - Use DevTools to set `hunger` to 95, reload.
 - Click Feed.
-- Message `"Tô cheia!! Para com isso."` appears.
+- Message `"I'm full!! Stop it."` appears.
 - Message disappears after ~4 seconds.
 
 **S-24 Exhausted Play (E-2)**
 
 - Set `energy` to 5, reload.
 - Click Play.
-- Message `"Nem consigo levantar as patas..."` appears.
+- Message `"Can't even lift a paw..."` appears.
 
 **S-25 Forced Rest (E-3)**
 
 - Set `energy` to 95, reload.
 - Click Rest.
-- Message `"Eu NÃO estou cansada. Mas ok."` appears.
+- Message `"I'm NOT tired. But fine."` appears.
 
 **S-26 Spam Click (E-4)**
 
 - Click on Zuki (PetDisplay) 5 times within 2 seconds.
-- Message `"Pára. Só porque és tu."` appears.
+- Message `"Stop it. Only because it's you."` appears.
 
 **S-27 Idle Guilt (E-5)**
 
 - Leave the app open without clicking any action button for 5 minutes.
-- Message `"Óbvio que preferes o telemóvel."` appears.
+- Message `"Obviously you prefer your phone."` appears.
 - Click an action. Wait 5 more minutes. Message fires again.
 
 **S-28 Peak Happiness (E-6)**
@@ -97,7 +97,7 @@ Run `npm run dev`.
 - Click Rest.
 - All stats hit 100 (hunger stays 95, happiness 100, energy 100 — not E-6 yet).
 - Set all stats to 95 again. Click Feed (hunger 100), then Play (happiness 100, energy clamped), then Rest (energy 100).
-- When all three simultaneously hit 100: `"Ok. Talvez goste um bocadinho de ti."` appears.
+- When all three simultaneously hit 100: `"Ok. Maybe I like you a little."` appears.
 
 **S-29 Message Replacement**
 

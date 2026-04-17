@@ -39,7 +39,7 @@ Add to existing test suites or create new files as appropriate.
 
 ### Test Suite: `src/components/ActionPanel.test.tsx`
 
-**T-6.1** Renders three buttons with visible text containing "Feed", "Play", and "Rest".
+**T-6.1** Renders three buttons with visible text containing "FEED", "PLAY", and "REST" (case-insensitive match).
 
 **T-6.2** Each button has an `aria-label` attribute.
 
@@ -60,7 +60,7 @@ Run `npm run dev` and verify the following.
 **S-7 Buttons Appear**
 
 - Complete the naming flow if needed.
-- Three buttons are visible below the vitals panel: Feed 🍙, Play 🎾, Rest 💤.
+- Three buttons are visible below the vitals panel: FEED, PLAY, REST.
 - No buttons are visible while the naming modal is open (clear localStorage to test this).
 
 **S-8 Feed Action**

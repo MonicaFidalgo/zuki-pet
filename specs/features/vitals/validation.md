@@ -74,11 +74,11 @@ import "@testing-library/jest-dom";
 
 **T-3.2** Each progress bar has `role="progressbar"` with correct `aria-valuenow`.
 
-**T-3.3** A stat value of 75 renders a green bar.
+**T-3.3** A stat value of 75 renders a green bar — verified via `data-color="green"` attribute on the `progressbar` element.
 
-**T-3.4** A stat value of 35 renders a yellow bar.
+**T-3.4** A stat value of 35 renders a yellow bar — verified via `data-color="yellow"` attribute.
 
-**T-3.5** A stat value of 20 renders a red bar.
+**T-3.5** A stat value of 20 renders a red bar — verified via `data-color="red"` attribute.
 
 ---
 

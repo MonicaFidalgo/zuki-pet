@@ -6,9 +6,9 @@ import { ActionPanel } from "./ActionPanel";
 describe("ActionPanel", () => {
   it("T-6.1: renders three buttons with visible text containing Feed, Play, and Rest", () => {
     render(<ActionPanel onAction={vi.fn()} />);
-    expect(screen.getByText(/Feed/)).toBeInTheDocument();
-    expect(screen.getByText(/Play/)).toBeInTheDocument();
-    expect(screen.getByText(/Rest/)).toBeInTheDocument();
+    expect(screen.getByText(/feed/i)).toBeInTheDocument();
+    expect(screen.getByText(/play/i)).toBeInTheDocument();
+    expect(screen.getByText(/rest/i)).toBeInTheDocument();
   });
 
   it("T-6.2: each button has an aria-label attribute", () => {

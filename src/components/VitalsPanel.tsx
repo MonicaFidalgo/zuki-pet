@@ -51,6 +51,7 @@ function StatRow({ label, value }: StatRowProps) {
         aria-valuemin={0}
         aria-valuemax={100}
         aria-label={label}
+        data-color={value > 50 ? 'green' : value >= 25 ? 'yellow' : 'red'}
         style={{ display: 'flex', gap: '2px', alignItems: 'center' }}
       >
         {Array.from({ length: TOTAL_BLOCKS }, (_, i) => (
@@ -75,7 +76,7 @@ export function VitalsPanel({ hunger, happiness, energy }: VitalsPanelProps) {
   return (
     <div style={{ width: '100%', padding: '4px 0' }}>
       <StatRow label="Hunger" value={hunger} />
-      <StatRow label="Happy" value={happiness} />
+      <StatRow label="Happiness" value={happiness} />
       <StatRow label="Energy" value={energy} />
     </div>
   );

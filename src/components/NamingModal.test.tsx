@@ -11,29 +11,29 @@ describe("NamingModal", () => {
 
   it("T-4.2: submit button is disabled when input is empty", () => {
     render(<NamingModal submitName={vi.fn()} />);
-    expect(screen.getByRole("button", { name: /let's go/i })).toBeDisabled();
+    expect(screen.getByRole("button", { name: /start/i })).toBeDisabled();
   });
 
   it("T-4.3: submit button is disabled when input contains only whitespace", async () => {
     const user = userEvent.setup();
     render(<NamingModal submitName={vi.fn()} />);
-    await user.type(screen.getByLabelText(/what will you call/i), "   ");
-    expect(screen.getByRole("button", { name: /let's go/i })).toBeDisabled();
+    await user.type(screen.getByLabelText(/name your fox/i), "   ");
+    expect(screen.getByRole("button", { name: /start/i })).toBeDisabled();
   });
 
   it("T-4.4: submit button is enabled after typing a non-empty name", async () => {
     const user = userEvent.setup();
     render(<NamingModal submitName={vi.fn()} />);
-    await user.type(screen.getByLabelText(/what will you call/i), "Zuki");
-    expect(screen.getByRole("button", { name: /let's go/i })).not.toBeDisabled();
+    await user.type(screen.getByLabelText(/name your fox/i), "Zuki");
+    expect(screen.getByRole("button", { name: /start/i })).not.toBeDisabled();
   });
 
   it("T-4.5: submitting a valid name calls submitName with the trimmed value", async () => {
     const user = userEvent.setup();
     const submitName = vi.fn();
     render(<NamingModal submitName={submitName} />);
-    await user.type(screen.getByLabelText(/what will you call/i), "  Zuki  ");
-    await user.click(screen.getByRole("button", { name: /let's go/i }));
+    await user.type(screen.getByLabelText(/name your fox/i), "  Zuki  ");
+    await user.click(screen.getByRole("button", { name: /start/i }));
     expect(submitName).toHaveBeenCalledWith("Zuki");
   });
 });

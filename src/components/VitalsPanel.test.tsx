@@ -23,18 +23,18 @@ describe("VitalsPanel", () => {
   it("T-3.3: a stat value of 75 renders a green bar", () => {
     render(<VitalsPanel hunger={75} happiness={70} energy={70} />);
     const hungerBar = screen.getByRole("progressbar", { name: "Hunger" });
-    expect(hungerBar.className).toContain("bg-green-500");
+    expect(hungerBar).toHaveAttribute("data-color", "green");
   });
 
   it("T-3.4: a stat value of 35 renders a yellow bar", () => {
     render(<VitalsPanel hunger={35} happiness={70} energy={70} />);
     const hungerBar = screen.getByRole("progressbar", { name: "Hunger" });
-    expect(hungerBar.className).toContain("bg-yellow-400");
+    expect(hungerBar).toHaveAttribute("data-color", "yellow");
   });
 
   it("T-3.5: a stat value of 20 renders a red bar", () => {
     render(<VitalsPanel hunger={20} happiness={70} energy={70} />);
     const hungerBar = screen.getByRole("progressbar", { name: "Hunger" });
-    expect(hungerBar.className).toContain("bg-red-500");
+    expect(hungerBar).toHaveAttribute("data-color", "red");
   });
 });

@@ -25,18 +25,18 @@ describe("PetDisplay — render states (T-8)", () => {
 
   it("T-8.2: when status is sick, text 'Sick' is present", () => {
     render(<PetDisplay status="sick" name="Zuki" onPetClick={vi.fn()} />);
-    expect(screen.getByText(/Sick/)).toBeInTheDocument();
+    expect(screen.getByText(/sick/i)).toBeInTheDocument();
   });
 
   it("T-8.3: when status is evolved, text 'Evolved' is present", () => {
     render(<PetDisplay status="evolved" name="Zuki" onPetClick={vi.fn()} />);
-    expect(screen.getByText(/Evolved/)).toBeInTheDocument();
+    expect(screen.getByText(/evolved/i)).toBeInTheDocument();
   });
 
   it("T-8.4: when status is normal, neither Sick nor Evolved appears", () => {
     render(<PetDisplay status="normal" name="Zuki" onPetClick={vi.fn()} />);
-    expect(screen.queryByText(/Sick/)).not.toBeInTheDocument();
-    expect(screen.queryByText(/Evolved/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/sick/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/evolved/i)).not.toBeInTheDocument();
   });
 });
 

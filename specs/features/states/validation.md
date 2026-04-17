@@ -45,11 +45,11 @@ All timing tests use `vi.useFakeTimers()`.
 
 **T-8.1** Renders without errors for each of the three states: `'normal'`, `'sick'`, `'evolved'`.
 
-**T-8.2** When `status === 'sick'`, the text "Sick" is present in the rendered output.
+**T-8.2** When `status === 'sick'`, text matching `/sick/i` is present in the rendered output (e.g. "[SICK]").
 
-**T-8.3** When `status === 'evolved'`, the text "Evolved" is present in the rendered output.
+**T-8.3** When `status === 'evolved'`, text matching `/evolved/i` is present in the rendered output (e.g. "** EVOLVED **").
 
-**T-8.4** When `status === 'normal'`, neither "Sick" nor "Evolved" appears in the rendered output.
+**T-8.4** When `status === 'normal'`, neither `/sick/i` nor `/evolved/i` appears in the rendered output.
 
 ---
 
@@ -66,13 +66,13 @@ Run `npm run dev`.
 
 - Use DevTools to set `hunger` to 10 in localStorage, reload.
 - Wait 60 seconds (4 ticks).
-- `PetDisplay` switches to sick appearance. "😷 Sick" label is visible.
+- `PetDisplay` switches to sick appearance. "[SICK]" label is visible.
 - `status` in localStorage is `"sick"`.
 
 **S-17 Recovery from Sick**
 
 - While Zuki is sick, click Feed and Play repeatedly until all stats are ≥ 40.
-- `PetDisplay` switches back to normal. "😷 Sick" label disappears.
+- `PetDisplay` switches back to normal. "[SICK]" label disappears.
 - `status` in localStorage is `"normal"`.
 
 **S-18 Sick Timer Reset**
@@ -84,7 +84,7 @@ Run `npm run dev`.
 
 - Use DevTools to set all stats to 85 and `totalCareActions` to 15, reload.
 - Wait 3 minutes (12 ticks).
-- `PetDisplay` switches to evolved appearance. "✨ Evolved" label is visible.
+- `PetDisplay` switches to evolved appearance. "** EVOLVED **" label is visible.
 - `status` in localStorage is `"evolved"`.
 
 **S-20 Evolution Requires Care Actions**

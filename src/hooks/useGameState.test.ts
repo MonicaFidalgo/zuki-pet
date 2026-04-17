@@ -310,7 +310,7 @@ describe("useGameState — personality (T-9)", () => {
     localStorage.setItem("zuki_game_state", JSON.stringify(base));
     const { result } = renderHook(() => useGameState());
     act(() => { result.current.performAction("feed"); });
-    expect(result.current.currentMessage).toBe("Tô cheia!! Para com isso.");
+    expect(result.current.currentMessage).toBe("I'm full!! Stop it.");
   });
 
   it("T-9.3: feed when hunger === 90 does NOT set E-1 message", () => {
@@ -326,7 +326,7 @@ describe("useGameState — personality (T-9)", () => {
     localStorage.setItem("zuki_game_state", JSON.stringify(base));
     const { result } = renderHook(() => useGameState());
     act(() => { result.current.performAction("play"); });
-    expect(result.current.currentMessage).toBe("Nem consigo levantar as patas...");
+    expect(result.current.currentMessage).toBe("Can't even lift a paw...");
   });
 
   it("T-9.5: rest when energy > 90 sets forced rest message", () => {
@@ -334,7 +334,7 @@ describe("useGameState — personality (T-9)", () => {
     localStorage.setItem("zuki_game_state", JSON.stringify(base));
     const { result } = renderHook(() => useGameState());
     act(() => { result.current.performAction("rest"); });
-    expect(result.current.currentMessage).toBe("Eu NÃO estou cansada. Mas ok.");
+    expect(result.current.currentMessage).toBe("I'm NOT tired. But fine.");
   });
 
   it("T-9.6: after message set, advancing 4000ms clears it", () => {
@@ -355,10 +355,10 @@ describe("useGameState — personality (T-9)", () => {
     act(() => { vi.advanceTimersByTime(2_000); });
     // Now set a second message via triggerSpamClick
     act(() => { result.current.triggerSpamClick(); });
-    expect(result.current.currentMessage).toBe("Pára. Só porque és tu.");
+    expect(result.current.currentMessage).toBe("Stop it. Only because it's you.");
     // 3s later (2+3=5s since first), first message would have expired but second should still be showing
     act(() => { vi.advanceTimersByTime(3_000); });
-    expect(result.current.currentMessage).toBe("Pára. Só porque és tu.");
+    expect(result.current.currentMessage).toBe("Stop it. Only because it's you.");
     // Now 4s after second message, it should clear
     act(() => { vi.advanceTimersByTime(1_001); });
     expect(result.current.currentMessage).toBeNull();
@@ -377,7 +377,7 @@ describe("useGameState — personality (T-9)", () => {
     localStorage.setItem("zuki_game_state", JSON.stringify(base3));
     const { result: result3 } = renderHook(() => useGameState());
     act(() => { result3.current.performAction("rest"); }); // happiness=100, energy=100, hunger=100
-    expect(result3.current.currentMessage).toBe("Ok. Talvez goste um bocadinho de ti.");
+    expect(result3.current.currentMessage).toBe("Ok. Maybe I like you a little.");
   });
 
   it("T-9.9: idle guilt fires after 300 000ms with no performAction", () => {
@@ -385,7 +385,7 @@ describe("useGameState — personality (T-9)", () => {
     localStorage.setItem("zuki_game_state", JSON.stringify(base));
     const { result } = renderHook(() => useGameState());
     act(() => { vi.advanceTimersByTime(30_000); });
-    expect(result.current.currentMessage).toBe("Óbvio que preferes o telemóvel.");
+    expect(result.current.currentMessage).toBe("Obviously you prefer your phone.");
   });
 
   it("T-9.10: after idle guilt fires and player acts, idle flag resets — no repeat until next 5min idle", () => {
@@ -394,7 +394,7 @@ describe("useGameState — personality (T-9)", () => {
     const { result } = renderHook(() => useGameState());
     // First idle fires
     act(() => { vi.advanceTimersByTime(30_000); });
-    expect(result.current.currentMessage).toBe("Óbvio que preferes o telemóvel.");
+    expect(result.current.currentMessage).toBe("Obviously you prefer your phone.");
     // Player acts — resets idle flag and lastInteraction
     act(() => { result.current.performAction("rest"); });
     // Clear message
